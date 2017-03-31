@@ -1,0 +1,47 @@
+application:
+  image: tianon/true
+  volumes:
+    - ./src:/var/www/html
+    - ~/.composer:/root/.composer
+
+frontend:
+  build: docker-images/nginx-dev
+  ports:
+    - "80:80"
+    - "443:443"
+  links:
+    - backend
+    - rdbms
+  volumes:
+    - ./docker-logs/nginx:/var/log/nginx
+  volumes_from:
+    - application
+  environment:
+    - APP_MAGE_MODE=developer
+    - VIRTUAL_HOST=magento-2.dev
+
+backend:
+  build: docker-images/phpfpm-dev
+  links:
+    - rdbms
+  volumes:
+    - ./docker-configs/php/php.ini:/usr/local/etc/php/php.ini
+    - ./docker-configs/php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+    - ./docker-configs/php/blackfire.ini:/usr/local/etc/php/conf.d/zz-blackfire.ini
+    - ./docker-logs/php:/var/log/php
+  volumes_from:
+    - application
+  environment:
+    - APP_MAGE_MODE=developer
+
+rdbms:
+  image: mariadb:10.1.22
+  ports:
+    - "3306:3306"
+  volumes:
+    - /Volumes/Workspace/src/dbstorage/magento2:/var/lib/mysql
+  environment:
+    - MYSQL_ROOT_PASSWORD=magento2
+    - MYSQL_DATABASE=magento2
+    - MYSQL_USER=magento2
+    - MYSQL_PASSWORD=magento2
