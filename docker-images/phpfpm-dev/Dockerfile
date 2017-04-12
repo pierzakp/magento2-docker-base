@@ -24,10 +24,3 @@ RUN rm -f /usr/local/bin/setup-config \
 
 COPY setup-config.sh /usr/local/bin/setup-config
 COPY start.sh /usr/local/bin/start
-
-#RUN chmod 777 /usr/local/bin/setup-config \
-#    && chmod 777 /usr/local/bin/start
-
-#WORKDIR /var/www/html
-
-#CMD ["/usr/local/bin/start"]
