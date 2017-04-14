@@ -21,7 +21,7 @@ frontend:
     - VIRTUAL_HOST=magento-2.dev
 
 backend:
-  image: pierzakp/magento2-php-dev:7.0
+  image: pierzakp/magento2-php-dev:5.6
   expose:
     - "9000"
   links:
