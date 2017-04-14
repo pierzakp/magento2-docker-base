@@ -5,7 +5,7 @@ application:
     - ~/.composer:/root/.composer
 
 frontend:
-  build: docker-images/nginx-dev
+  image: pierzakp/magento2-nginx-dev:1.11
   ports:
     - "80:80"
     - "443:443"
@@ -21,7 +21,7 @@ frontend:
     - VIRTUAL_HOST=magento-2.dev
 
 backend:
-  build: docker-images/phpfpm-dev
+  image: pierzakp/magento2-php-dev:7.0
   expose:
     - "9000"
   links:
