@@ -22,6 +22,8 @@ frontend:
 
 backend:
   build: docker-images/phpfpm-dev
+  expose:
+    - "9000"
   links:
     - rdbms
   volumes:
@@ -33,6 +35,9 @@ backend:
     - application
   environment:
     - APP_MAGE_MODE=developer
+    - PHP_IDE_CONFIG=serverName=magento-2.dev
+    - PHP_XDEBUG_ENABLED=1
+    - XDEBUG_CONFIG=remote_host=10.254.254.254
 
 rdbms:
   image: mariadb:10.1.22
