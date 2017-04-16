@@ -44,7 +44,7 @@ rdbms:
   ports:
     - "3306:3306"
   volumes:
-    - /Volumes/Workspace/src/dbstorage/magento2:/var/lib/mysql
+    - /Volumes/Secondary/Workspace/dbstorage/magento2:/var/lib/mysql
   environment:
     - MYSQL_ROOT_PASSWORD=magento2
     - MYSQL_DATABASE=magento2
