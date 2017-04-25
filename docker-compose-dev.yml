@@ -1,0 +1,10 @@
+version: "2"
+
+services:
+  application:
+    volumes:
+      - application-sync:/var/www/html:rw
+
+volumes:
+  application-sync:
+    external: true

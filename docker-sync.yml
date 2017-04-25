@@ -1,0 +1,19 @@
+version: "2"
+
+syncs:
+  application-sync:
+    src: './src'
+    dest: '/var/www/html'
+    sync_host_port: 10872
+    sync_strategy: 'unison'
+    sync_user: 'www-data'
+    sync_userid: '33'
+    # sync_group: 'www-data'
+    # sync_groupid: '33'
+    sync_args:
+      - "-ignore='Path .idea'"
+      - "-ignore='Path .git'"
+      - "-ignore='BelowPath .git'"
+      - "-ignore='Path var/cache/*'"
+      - "-ignore='Path var/sessions/*'"
+      - "-ignore='Path node_modules/*'"
