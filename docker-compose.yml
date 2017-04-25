@@ -1,52 +1,59 @@
-application:
-  image: tianon/true
-  volumes:
-    - ./src:/var/www/html
-    - ~/.composer:/root/.composer
+version: "2"
 
-frontend:
-  image: pierzakp/magento2-nginx-dev:1.11
-  ports:
-    - "80:80"
-    - "443:443"
-  links:
-    - backend
-    - rdbms
-  volumes:
-    - ./docker-logs/nginx:/var/log/nginx
-  volumes_from:
-    - application
-  environment:
-    - APP_MAGE_MODE=developer
-    - VIRTUAL_HOST=magento-2.dev
+services:
+  application:
+    image: tianon/true
+    volumes:
+      #- ./src:/var/www/html
+      - ~/.composer:/root/.composer
 
-backend:
-  image: pierzakp/magento2-php-dev:5.6
-  expose:
-    - "9000"
-  links:
-    - rdbms
-  volumes:
-    - ./docker-configs/php/php.ini:/usr/local/etc/php/php.ini
-    - ./docker-configs/php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-    - ./docker-configs/php/blackfire.ini:/usr/local/etc/php/conf.d/zz-blackfire.ini
-    - ./docker-logs/php:/var/log/php
-  volumes_from:
-    - application
-  environment:
-    - APP_MAGE_MODE=developer
-    - PHP_IDE_CONFIG=serverName=magento-2.dev
-    - PHP_XDEBUG_ENABLED=1
-    - XDEBUG_CONFIG=remote_host=10.254.254.254
+  frontend:
+    image: pierzakp/magento2-nginx-dev:1.11
+    ports:
+      - "80:80"
+      - "443:443"
+    links:
+      - backend
+      - rdbms
+    volumes:
+      - ./docker-logs/nginx:/var/log/nginx
+    volumes_from:
+      - application
+    environment:
+      - APP_MAGE_MODE=developer
+      - VIRTUAL_HOST=magento-2.dev
 
-rdbms:
-  image: mariadb:10.1.22
-  ports:
-    - "3306:3306"
-  volumes:
-    - /Volumes/Secondary/Workspace/dbstorage/magento2:/var/lib/mysql
-  environment:
-    - MYSQL_ROOT_PASSWORD=magento2
-    - MYSQL_DATABASE=magento2
-    - MYSQL_USER=magento2
-    - MYSQL_PASSWORD=magento2
+  backend:
+    image: pierzakp/magento2-php-dev:5.6
+    expose:
+      - "9000"
+    links:
+      - rdbms
+    volumes:
+      - ./docker-configs/php/php.ini:/usr/local/etc/php/php.ini
+      - ./docker-configs/php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+      - ./docker-configs/php/blackfire.ini:/usr/local/etc/php/conf.d/zz-blackfire.ini
+      - ./docker-logs/php:/var/log/php
+    volumes_from:
+      - application
+    environment:
+      - APP_MAGE_MODE=developer
+      - PHP_IDE_CONFIG=serverName=magento-2.dev
+      - PHP_XDEBUG_ENABLED=1
+      - XDEBUG_CONFIG=remote_host=10.254.254.254
+
+  rdbms:
+    image: mariadb:10.1.22
+    ports:
+      - "3306:3306"
+    volumes:
+      - /Volumes/Secondary/Workspace/dbstorage/magento2:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=magento2
+      - MYSQL_DATABASE=magento2
+      - MYSQL_USER=magento2
+      - MYSQL_PASSWORD=magento2
+
+  redis:
+      image: redis:3.0.7
+      restart: always
