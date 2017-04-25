@@ -52,3 +52,7 @@ services:
       - MYSQL_DATABASE=magento2
       - MYSQL_USER=magento2
       - MYSQL_PASSWORD=magento2
+
+  redis:
+    image: redis:3.0.7
+    restart: always
