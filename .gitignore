@@ -2,3 +2,4 @@
 
 /docker-logs/*
 /src/*
+/*.sql
