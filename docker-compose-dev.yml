@@ -3,8 +3,8 @@ version: "2"
 services:
   application:
     volumes:
-      - application-sync:/var/www/html:rw
+      - magento2-application-sync:/var/www/html:nocopy
 
 volumes:
-  application-sync:
+  magento2-application-sync:
     external: true

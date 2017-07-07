@@ -45,8 +45,8 @@ services:
     image: mariadb:10.1.22
     ports:
       - "3306:3306"
-    volumes:
-      - /Volumes/Secondary/Workspace/dbstorage/magento2:/var/lib/mysql
+    #volumes:
+    #  - /Volumes/Secondary/Workspace/dbstorage/magento2:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=magento2
       - MYSQL_DATABASE=magento2
@@ -55,4 +55,3 @@ services:
 
   redis:
     image: redis:3.0.7
-    restart: always
